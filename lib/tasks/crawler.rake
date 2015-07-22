@@ -12,10 +12,12 @@ module Crawlers
 		
 		def initialize(stock_name)
 			#basics strings
-			@base_url = "http://economia.uol.com.br/"
-			@middleUrl = "cotacoes/bolsas/acoes/bvsp-bovespa/"
-			@endUrl = "/?historico"	
-			@url = @middleUrl + stock_name + @endUrl
+			@base_url = "http://cotacoes.economia.uol.com.br/acao/cotacoes-historicas.html?codigo="
+			@end_url = "&beginDay=17&beginMonth=7&beginYear=2000&endDay=17&endMonth=7&endYear=2015&page=1&size=200"
+			#@base_url = "http://economia.uol.com.br/"
+			#@middleUrl = "cotacoes/bolsas/acoes/bvsp-bovespa/"
+			#@endUrl = "/?historico"	
+			@url = @base_url + stock_name + @end_url
 			@stock_name = stock_name
 			
 			#Basic capybara setup
@@ -38,7 +40,7 @@ module Crawlers
 				puts"Stock name: #{stock_name}"
 				@stock_model = Stock.where(:name == stock_name).first
 				last_result = @stock_model.stock_value.all
-				if !last_result.nil?
+				if !last_result.empty?
 					@last_date = last_result.first.date
 				else
 					@last_date = nil
@@ -56,13 +58,13 @@ module Crawlers
 		
 		# crawl given stock
 		def crawl
-
 			visit @url
 			html_doc = Nokogiri::HTML(page.body)
 			values = Array.new
 			go_next = true
 
-			html_doc.css('div#result table tbody tr').each do |line| 
+			html_doc.css('table#tblInterday tbody tr').each do |line| 
+			#html_doc.css('div#result table tbody tr').each do |line| 
 				quote = line.css("td")
 
 				value = StockValue.new
@@ -71,38 +73,31 @@ module Crawlers
 				if !@last_date.nil?
 					if value.date == @last_date
 						save_results(values)
-						go_next = false
 						return			
 					end
 				end 
 
 				value.value = quote[1].text.sub ",", "."
-				value.variance = quote[2].text.sub ",", "."
-				value.variancepercent = quote[3].text.sub ",", "."
-				value.low = quote[4].text.sub ",", "."
-				value.high = quote[5].text.sub ",", "."
+				value.variance = quote[4].text.sub ",", "."
+				value.variancepercent = quote[5].text.sub ",", "."
+				value.low = quote[2].text.sub ",", "."
+				value.high = quote[3].text.sub ",", "."
 				value.volume = quote[6].text.sub ".", ","
 
 				values.push value
 			end
 			
 			puts "crawled: #{values.size} \n"  
-			if go_next
-				save_results(values)
-				get_next html_doc
-			else 
-				puts "Ending crawl..."
-				return
-			end
+			save_results(values)
+			get_next html_doc
 		end
 
 		def get_next html_doc
-			puts html_doc.css('li#lnk-proxima a')
 			nextref = html_doc.css('li#lnk-proxima a')
-			puts nextref
 			if !nextref.empty?
 				href = nextref[0]['href']
-				@url = @middleUrl + @stock_name + href
+				#@url = @middleUrl + @stock_name + href
+				@url = href
 				crawl
 			end
 		end
@@ -127,7 +122,7 @@ namespace :stock do
 
   # Task used to crawl all files
   task :crawl => :environment do |task|
-  	crawler = Crawlers::UolCrawler.new "petr4-sa"
+  	crawler = Crawlers::UolCrawler.new "petr4.sa"
   	crawler.crawl
   end
 

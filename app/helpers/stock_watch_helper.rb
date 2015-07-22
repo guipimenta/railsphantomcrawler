@@ -7,6 +7,7 @@ module StockWatchHelper
 		require 'capybara'
 		require 'capybara/poltergeist'
 		require "capybara/dsl" 
+
 		class UolCrawler
 			include Capybara::DSL
 

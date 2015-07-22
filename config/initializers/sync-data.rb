@@ -21,6 +21,6 @@ scheduler.cron("00 00 * * *") do
 #scheduler.every("10s") do
 	puts "Starting sync routine at "
 	Rake::Task['stock:crawl'].reenable # in case you're going to invoke the same task second time.
-    Rake::Task['stock:crawl'].invoke
+    	Rake::Task['stock:crawl'].invoke
 	puts "[LOG] Sync task OK"
 end 
