@@ -19,16 +19,16 @@ scheduler.cron("00 00 * * *") do
 	sync_routine
 end 
 
-scheduler.every("20m") do
+scheduler.every("30s") do
 	if Update.count == 0
 		Update.create(:updated=>true)
 	end
 
 	if Update.first.updated
-		sync_routine
 		status = Update.first
 		status.updated = false
-		Update.save
+		status.save
+		sync_routine
 	end
 end 
 
