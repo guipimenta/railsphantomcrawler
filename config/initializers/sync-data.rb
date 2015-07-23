@@ -19,7 +19,7 @@ scheduler.cron("00 00 * * *") do
 	sync_routine
 end 
 
-scheduler.every("15m") do
+scheduler.every("20m") do
 	if Update.count == 0
 		Update.create(:updated=>true)
 	end
