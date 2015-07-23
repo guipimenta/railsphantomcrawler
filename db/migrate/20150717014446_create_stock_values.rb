@@ -1,7 +1,8 @@
 class CreateStockValues < ActiveRecord::Migration
   def change
     create_table :stock_values do |t|
-      t.string :date
+      t.string :br_date
+      t.date :us_date
       t.float :value
       t.float :variance
       t.float :variancepercent

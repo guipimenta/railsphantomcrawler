@@ -12,8 +12,12 @@ module Crawlers
 		
 		def initialize(stock_name)
 			#basics strings
+			time = Time.new
+			day = time.day
+			month = time.month
+			year = time.year
 			@base_url = "http://cotacoes.economia.uol.com.br/acao/cotacoes-historicas.html?codigo="
-			@end_url = "&beginDay=17&beginMonth=7&beginYear=2000&endDay=17&endMonth=7&endYear=2015&page=1&size=200"
+			@end_url = "&beginDay=17&beginMonth=7&beginYear=2000&endDay=#{day}&endMonth=#{month}&endYear=#{year}&page=1&size=200"
 			#@base_url = "http://economia.uol.com.br/"
 			#@middleUrl = "cotacoes/bolsas/acoes/bvsp-bovespa/"
 			#@endUrl = "/?historico"	
@@ -39,9 +43,9 @@ module Crawlers
 				puts "Not Empty"
 				puts"Stock name: #{stock_name}"
 				@stock_model = Stock.where(:name == stock_name).first
-				last_result = @stock_model.stock_value.all
+				last_result = @stock_model.stock_value.order("us_date")
 				if !last_result.empty?
-					@last_date = last_result.first.date
+					@last_date = last_result.last.br_date
 				else
 					@last_date = nil
 				end
@@ -61,17 +65,17 @@ module Crawlers
 			visit @url
 			html_doc = Nokogiri::HTML(page.body)
 			values = Array.new
-			go_next = true
 
 			html_doc.css('table#tblInterday tbody tr').each do |line| 
 			#html_doc.css('div#result table tbody tr').each do |line| 
 				quote = line.css("td")
 
 				value = StockValue.new
-				value.date = quote[0].text
+				value.br_date = quote[0].text
+				value.us_date = convert_br_us value.br_date
 
 				if !@last_date.nil?
-					if value.date == @last_date
+					if value.br_date == @last_date
 						save_results(values)
 						return			
 					end
@@ -92,6 +96,12 @@ module Crawlers
 			get_next html_doc
 		end
 
+		def convert_br_us date
+			splited = date.split('/')
+			return "#{splited[2]}-#{splited[1]}-#{splited[0]}"
+		end
+
+
 		def get_next html_doc
 			nextref = html_doc.css('li#lnk-proxima a')
 			if !nextref.empty?
@@ -104,8 +114,8 @@ module Crawlers
 
 
 		def save_results values
+			puts "Saving: #{values.size}\n" 
 			values.each do |value|
-				value.save
 				@stock_model.stock_value.push value
 			end
 			@stock_model.save
