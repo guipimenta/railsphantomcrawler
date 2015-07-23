@@ -10,3 +10,4 @@ asset 'angular-route'
 asset 'angular-resource'
 # Used to mock http responses - mainly testing
 asset 'angular-mocks'
+

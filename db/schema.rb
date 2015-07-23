@@ -14,7 +14,8 @@
 ActiveRecord::Schema.define(version: 20150717014446) do
 
   create_table "stock_values", force: :cascade do |t|
-    t.string   "date",            limit: 255
+    t.string   "br_date",         limit: 255
+    t.date     "us_date"
     t.float    "value",           limit: 24
     t.float    "variance",        limit: 24
     t.float    "variancepercent", limit: 24
