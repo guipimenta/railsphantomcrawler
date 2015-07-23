@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150717014446) do
+ActiveRecord::Schema.define(version: 20150723010019) do
 
   create_table "stock_values", force: :cascade do |t|
     t.string   "br_date",         limit: 255
@@ -33,6 +33,12 @@ ActiveRecord::Schema.define(version: 20150717014446) do
     t.text     "name",       limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "updates", force: :cascade do |t|
+    t.boolean  "updated",    limit: 1
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
 end

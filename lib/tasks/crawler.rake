@@ -42,7 +42,7 @@ module Crawlers
 			if !Stock.where(:name == stock_name).empty?
 				puts "Not Empty"
 				puts"Stock name: #{stock_name}"
-				@stock_model = Stock.where(:name == stock_name).first
+				@stock_model = Stock.where(:name => stock_name).first
 				last_result = @stock_model.stock_value.order("us_date")
 				if !last_result.empty?
 					@last_date = last_result.last.br_date
@@ -132,8 +132,10 @@ namespace :stock do
 
   # Task used to crawl all files
   task :crawl => :environment do |task|
-  	crawler = Crawlers::UolCrawler.new "petr4.sa"
-  	crawler.crawl
+  	Stock.all.each do |stock|
+  		crawler = Crawlers::UolCrawler.new stock.name
+  		crawler.crawl
+  	end
   end
 
 end
