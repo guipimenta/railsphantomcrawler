@@ -12,8 +12,11 @@
 //
 //= require jquery/dist/jquery
 //= require angular/angular
+//= require angular-strap/dist/angular-strap
+//= require angular-strap/dist/modules/typeahead.tpl
+//= require angular-strap/dist/modules/tooltip
 //= require angular-route/angular-route
 //= require angular-resource/angular-resource
-//= require app
+//= require angular/app
 //= require turbolinks
 //= require_tree .

@@ -1,0 +1,31 @@
+<h2>{{vm.stock.name}}</h2>
+<table class="table">
+  <thead>
+    <th>Data</th>
+    <th>Valor</th>
+    <th>Variancia</th>
+    <th>Alta</th>
+    <th>Baixa</th>
+    <th>Volume</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="stock_value in vm.stock_values">
+      <td>{{stock_value.br_date}}</td>
+      <td>
+        {{stock_value.value}}
+      </td>
+      <td>
+        {{stock_value.variance}}
+      </td>
+      <td>
+        {{stock_value.high}}
+      </td>
+      <td>
+        {{stock_value.low}}
+      </td>
+      <td>
+        {{stock_value.volume}}
+      </td>
+    </tr>
+  </tbody>
+</table>
