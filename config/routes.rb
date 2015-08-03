@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   root "stock_watch#index"
   get "/stock/status", to: "stock_watch#getStatus"
   get "/stock/info/:id", to: "stock_watch#get_info"
@@ -7,7 +8,6 @@ Rails.application.routes.draw do
   get "/stock/", to: "stock_watch#getStockNames"
   delete "/stock/:id", to: "stock_watch#delete_stock"
   post "/stock/", to: "stock_watch#create"
-
 
 
   # The priority is based upon order of creation: first created -> highest priority.

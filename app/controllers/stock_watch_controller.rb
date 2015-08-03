@@ -1,6 +1,7 @@
 require 'stock_watch_helper'
 class StockWatchController < ApplicationController
 
+	before_action :authenticate_user!
 
 	def index
 	end
@@ -50,7 +51,6 @@ class StockWatchController < ApplicationController
 
 	def create
 		name = params["name"]
-		byebug
 		if name.strip.size > 0
 			if Stock.where(:name => name).size == 0
 				stock = Stock.new

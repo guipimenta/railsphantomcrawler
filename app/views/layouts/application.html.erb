@@ -6,8 +6,10 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body ng-app="StockWatcherApp" ng-controller="WatchController as CStock">
 
+<body ng-app="StockWatcherApp" ng-controller="WatchController as CStock">
+	<p class="notice" ng-hide="true"><%= notice %></p>
+	<p class="alert" ng-hide="true"><%= alert %></p>
 <%= yield %>
 
 </body>
