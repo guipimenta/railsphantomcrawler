@@ -4,10 +4,15 @@
 asset 'jquery'
 # Main angular module
 asset 'angular'
-# Needed to ajax routing **using instead of default rails routing file** 
+# Needed to ajax routing **using instead of default rails routing file**
 asset 'angular-route'
 # Proviedes app.factory methods
 asset 'angular-resource'
 # Used to mock http responses - mainly testing
 asset 'angular-mocks'
-
+# Angular animate
+asset 'angular-animate'
+# Angular motion
+asset 'angular-motion'
+# Angular strap
+asset 'angular-strap'

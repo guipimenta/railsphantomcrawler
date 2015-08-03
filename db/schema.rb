@@ -14,31 +14,31 @@
 ActiveRecord::Schema.define(version: 20150723010019) do
 
   create_table "stock_values", force: :cascade do |t|
-    t.string   "br_date",         limit: 255
+    t.string   "br_date"
     t.date     "us_date"
-    t.float    "value",           limit: 24
-    t.float    "variance",        limit: 24
-    t.float    "variancepercent", limit: 24
-    t.float    "low",             limit: 24
-    t.float    "high",            limit: 24
-    t.integer  "volume",          limit: 4
-    t.integer  "stock_id",        limit: 4
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.float    "value"
+    t.float    "variance"
+    t.float    "variancepercent"
+    t.float    "low"
+    t.float    "high"
+    t.integer  "volume"
+    t.integer  "stock_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  add_index "stock_values", ["stock_id"], name: "index_stock_values_on_stock_id", using: :btree
+  add_index "stock_values", ["stock_id"], name: "index_stock_values_on_stock_id"
 
   create_table "stocks", force: :cascade do |t|
-    t.text     "name",       limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.text     "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "updates", force: :cascade do |t|
-    t.boolean  "updated",    limit: 1
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.boolean  "updated"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
