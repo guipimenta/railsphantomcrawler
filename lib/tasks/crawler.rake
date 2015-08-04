@@ -83,7 +83,7 @@ module Crawlers
 				value.low = quote[2].text.sub ",", "."
 				value.high = quote[3].text.sub ",", "."
 				# "Typecast" to integer value on database
-				value.volume = quote[6].text.sub ".", ""
+				value.volume = quote[6].text.gsub ".", ""
 
 				values.push value
 			end
